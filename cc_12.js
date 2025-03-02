@@ -1,13 +1,16 @@
 // Task 1 - Created Revenue Metric Card
 
-// Selecting the dashboard using two different methods
-const dashboard = document.getElementById("dashboard");
+// Selecting the dashboard using both document.getElementById and document.querySelector
+const dashboard = document.getElementById("dashboard"); 
+const dashboardSelector = document.querySelector("#dashboard"); 
 
 // Creating a new metric card for revenue
 const revenueCard = document.createElement("div");
-revenueCard.setAttribute("class", "metric-card"); // Assign class
-revenueCard.setAttribute("id", "revenueCard"); // Assign unique ID
+revenueCard.setAttribute("class", "metric-card"); // Assigning class
+revenueCard.setAttribute("id", "revenueCard"); // Assigning unique ID
 revenueCard.textContent = "Revenue: $0"; // Initial placeholder text
+
+dashboard.appendChild(revenueCard); // Append the revenue card to the dashboard
 
 // Function to update revenue dynamically
 function updateRevenue(amount) {
@@ -16,16 +19,14 @@ function updateRevenue(amount) {
     revenueCard.textContent = `Revenue: $${currentRevenue}`;
 }
 
-// Appending the revenue card to the dashboard
-dashboard.appendChild(revenueCard);
-
 // Task 2 - Updated Metric Cards via Array Conversion
 
-// Selecting all metric cards
+// Selecting all metric cards and converting NodeList to an array
 const metricCardList = document.querySelectorAll(".metric-card");
+const metricCardArray = Array.from(metricCardList);
 
-// Converting NodeList to an array and updating styles
-Array.from(metricCardList).forEach(card => {
+// Updating each card's text and background color
+metricCardArray.forEach(card => {
     card.textContent += " - Updated";
     card.style.backgroundColor = "greenyellow";
 });
@@ -35,26 +36,27 @@ Array.from(metricCardList).forEach(card => {
 const inventoryList = document.getElementById("inventoryList");
 
 // Function to add a new inventory item
-function addInventoryItem(product) {
-    let newItem = document.createElement("li");
-    newItem.setAttribute("class", "product-item");
-    newItem.textContent = product;
+def addInventoryItem(product) {
+    let newLi = document.createElement("li");
+    newLi.setAttribute("class", "product-item");
+    newLi.setAttribute("data-product", product);
+    newLi.textContent = product;
 
     // Attach event listener to remove item on click AND increase revenue
-    newItem.addEventListener("click", function () {
-        removeInventoryItem(newItem);
+    newLi.addEventListener("click", function () {
+        removeInventoryItem(newLi);
         updateRevenue(100); // Increase revenue when an item is sold
     });
 
-    inventoryList.appendChild(newItem);
+    inventoryList.appendChild(newLi);
 }
 
 // Function to remove inventory item
-function removeInventoryItem(item) {
+def removeInventoryItem(item) {
     inventoryList.removeChild(item);
 }
 
-// Testing with sample items
+// Adding test inventory items
 addInventoryItem("Click to Remove");
 addInventoryItem("Try Adding More");
 
@@ -63,7 +65,7 @@ addInventoryItem("Try Adding More");
 const customerSection = document.getElementById("customerSection");
 
 // Function to create customer cards dynamically
-function addCustomer(name) {
+def addCustomer(name) {
     let customerCard = document.createElement("div");
     customerCard.setAttribute("class", "customer-card");
     customerCard.textContent = name;
@@ -72,7 +74,7 @@ function addCustomer(name) {
     customerCard.addEventListener("click", function (event) {
         console.log(`Customer clicked: ${name}`);
         alert(`Customer: ${name} clicked!`);
-        event.stopPropagation(); // Prevent parent click from firing
+        event.stopPropagation(); // Prevents parent click from firing
     });
 
     customerSection.appendChild(customerCard);
