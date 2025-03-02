@@ -2,21 +2,21 @@
 
 // Selecting the dashboard using two different methods
 const dashboard = document.getElementById("dashboard");
-const dashboardSelector = document.querySelector("#dashboard");
 
 // Creating a new metric card for revenue
 const revenueCard = document.createElement("div");
-revenueCard.setAttribute("class", "metric-card"); // Assigning class
-revenueCard.setAttribute("id", "revenueCard"); // Assigning unique ID
-revenueCard.textContent = "Revenue: $0"; // Adding placeholder text
+revenueCard.setAttribute("class", "metric-card"); // Assign class
+revenueCard.setAttribute("id", "revenueCard"); // Assign unique ID
+revenueCard.textContent = "Revenue: $0"; // Initial placeholder text
+
 // Function to update revenue dynamically
 function updateRevenue(amount) {
-    let currentRevenue = parseInt(revenueCard.textContent.replace("Revenue: $", ""));
+    let currentRevenue = parseInt(revenueCard.textContent.replace("Revenue: $", "")) || 0;
     currentRevenue += amount;
     revenueCard.textContent = `Revenue: $${currentRevenue}`;
 }
 
-// Appending the new revenue card to the dashboard
+// Appending the revenue card to the dashboard
 dashboard.appendChild(revenueCard);
 
 // Task 2 - Updated Metric Cards via Array Conversion
@@ -24,11 +24,8 @@ dashboard.appendChild(revenueCard);
 // Selecting all metric cards
 const metricCardList = document.querySelectorAll(".metric-card");
 
-// Converting NodeList to an array
-const metricCardArray = [...metricCardList];
-
-// Updating each card text and background color
-metricCardArray.forEach(card => {
+// Converting NodeList to an array and updating styles
+Array.from(metricCardList).forEach(card => {
     card.textContent += " - Updated";
     card.style.backgroundColor = "greenyellow";
 });
@@ -37,27 +34,20 @@ metricCardArray.forEach(card => {
 
 const inventoryList = document.getElementById("inventoryList");
 
-// Function to add new inventory item
+// Function to add a new inventory item
 function addInventoryItem(product) {
     let newItem = document.createElement("li");
     newItem.setAttribute("class", "product-item");
-    newItem.setAttribute("data-product", product);
     newItem.textContent = product;
-      // Attach event listener to remove item on click AND increase revenue
-      newItem.addEventListener("click", function () {
+
+    // Attach event listener to remove item on click AND increase revenue
+    newItem.addEventListener("click", function () {
         removeInventoryItem(newItem);
         updateRevenue(100); // Increase revenue when an item is sold
     });
 
     inventoryList.appendChild(newItem);
 }
-
-
-    // Attach event to remove item when clicked
-    newItem.addEventListener("click", () => removeInventoryItem(newItem));
-    
-    inventoryList.appendChild(newItem);
-
 
 // Function to remove inventory item
 function removeInventoryItem(item) {
@@ -72,35 +62,26 @@ addInventoryItem("Try Adding More");
 
 const customerSection = document.getElementById("customerSection");
 
-// Function to create customer cards
+// Function to create customer cards dynamically
 function addCustomer(name) {
     let customerCard = document.createElement("div");
     customerCard.setAttribute("class", "customer-card");
     customerCard.textContent = name;
 
-    // Prevent event bubbling
-    customerCard.addEventListener("click", (event) => {
-        console.log(`Customer card clicked: ${name}`);
-        event.stopPropagation();
+    // Prevent event bubbling and trigger alert
+    customerCard.addEventListener("click", function (event) {
+        console.log(`Customer clicked: ${name}`);
+        alert(`Customer: ${name} clicked!`);
+        event.stopPropagation(); // Prevent parent click from firing
     });
 
     customerSection.appendChild(customerCard);
-        // Prevent event bubbling and trigger alert
-        customerCard.addEventListener("click", function (event) {
-            console.log(`Customer clicked: ${name}`);
-            alert(`Customer: ${name} clicked!`);
-            event.stopPropagation(); // Prevent parent click from firing
-        });
-    
-        customerSection.appendChild(customerCard);
-    }
-    
-    
-
+}
 
 // Click event on parent container to demonstrate bubbling
 customerSection.addEventListener("click", () => {
     console.log("Customer section clicked.");
+    alert("You clicked the customer section!");
 });
 
 // Adding sample customers
