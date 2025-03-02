@@ -52,3 +52,32 @@ function removeInventoryItem(item) {
 // Testing with sample items
 addInventoryItem("Click to Remove");
 addInventoryItem("Try Adding More");
+
+// Task 4 - Demonstrated Event Bubbling in Customer Section
+
+const customerSection = document.getElementById("customerSection");
+
+// Function to create customer cards
+function addCustomer(name) {
+    let customerCard = document.createElement("div");
+    customerCard.setAttribute("class", "customer-card");
+    customerCard.textContent = name;
+
+    // Prevent event bubbling
+    customerCard.addEventListener("click", (event) => {
+        console.log(`Customer card clicked: ${name}`);
+        event.stopPropagation();
+    });
+
+    customerSection.appendChild(customerCard);
+}
+
+// Click event on parent container to demonstrate bubbling
+customerSection.addEventListener("click", () => {
+    console.log("Customer section clicked.");
+});
+
+// Adding sample customers
+addCustomer("Alice Johnson");
+addCustomer("John Doe");
+addCustomer("Emma Smith");
