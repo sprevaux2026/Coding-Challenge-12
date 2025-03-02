@@ -1,18 +1,18 @@
 // Task 1 - Created Revenue Metric Card
 
-// Selecting the dashboard using both document.getElementById and document.querySelector
+// Grabbing the dashboard element in two ways
 const dashboard = document.getElementById("dashboard"); 
 const dashboardSelector = document.querySelector("#dashboard"); 
 
-// Creating a new metric card for revenue
+// Making a new card for revenue and setting its properties
 const revenueCard = document.createElement("div");
-revenueCard.setAttribute("class", "metric-card"); // Assigning class
-revenueCard.setAttribute("id", "revenueCard"); // Assigning unique ID
-revenueCard.textContent = "Revenue: $0"; // Initial placeholder text
+revenueCard.setAttribute("class", "metric-card"); // Give it a class for styling
+revenueCard.setAttribute("id", "revenueCard"); // Unique ID to target it later
+revenueCard.textContent = "Revenue: $0"; // Start at zero revenue
 
-dashboard.appendChild(revenueCard); // Append the revenue card to the dashboard
+dashboard.appendChild(revenueCard); // Add the card to the dashboard
 
-// Function to update revenue dynamically
+// Function to update the revenue dynamically
 function updateRevenue(amount) {
     let currentRevenue = parseInt(revenueCard.textContent.replace("Revenue: $", "")) || 0;
     currentRevenue += amount;
@@ -21,72 +21,72 @@ function updateRevenue(amount) {
 
 // Task 2 - Updated Metric Cards via Array Conversion
 
-// Selecting all metric cards and converting NodeList to an array
+// Get all metric cards and turn them into an array
 const metricCardList = document.querySelectorAll(".metric-card");
 const metricCardArray = Array.from(metricCardList);
 
-// Updating each card's text and background color
+// Loop through each card and update its text and background color
 metricCardArray.forEach(card => {
-    card.textContent += " - Updated";
-    card.style.backgroundColor = "greenyellow";
+    card.textContent += " - Updated"; // Append "Updated" to the text
+    card.style.backgroundColor = "greenyellow"; // Change background for visibility
 });
 
 // Task 3 - Implemented Dynamic Inventory List
 
 const inventoryList = document.getElementById("inventoryList");
 
-// Function to add a new inventory item
-def addInventoryItem(product) {
+// Function to add a new item to the inventory list
+function addInventoryItem(product) {
     let newLi = document.createElement("li");
     newLi.setAttribute("class", "product-item");
     newLi.setAttribute("data-product", product);
     newLi.textContent = product;
 
-    // Attach event listener to remove item on click AND increase revenue
+    // Clicking the item removes it and increases revenue
     newLi.addEventListener("click", function () {
         removeInventoryItem(newLi);
-        updateRevenue(100); // Increase revenue when an item is sold
+        updateRevenue(100); // Add $100 when an item is removed (sold)
     });
 
     inventoryList.appendChild(newLi);
 }
 
-// Function to remove inventory item
-def removeInventoryItem(item) {
+// Function to remove an inventory item
+function removeInventoryItem(item) {
     inventoryList.removeChild(item);
 }
 
 // Adding test inventory items
-addInventoryItem("Click to Remove");
-addInventoryItem("Try Adding More");
+addInventoryItem("Laptop");
+addInventoryItem("Smartphone");
 
 // Task 4 - Demonstrated Event Bubbling in Customer Section
 
 const customerSection = document.getElementById("customerSection");
 
-// Function to create customer cards dynamically
-def addCustomer(name) {
+// Function to create and display customer cards
+function addCustomer(name) {
     let customerCard = document.createElement("div");
     customerCard.setAttribute("class", "customer-card");
     customerCard.textContent = name;
 
-    // Prevent event bubbling and trigger alert
+    // Clicking the card logs it and prevents bubbling
     customerCard.addEventListener("click", function (event) {
         console.log(`Customer clicked: ${name}`);
         alert(`Customer: ${name} clicked!`);
-        event.stopPropagation(); // Prevents parent click from firing
+        event.stopPropagation(); // Stop the click from affecting the parent container
     });
 
     customerSection.appendChild(customerCard);
 }
 
-// Click event on parent container to demonstrate bubbling
+// If the customer section itself is clicked, log it
 customerSection.addEventListener("click", () => {
     console.log("Customer section clicked.");
     alert("You clicked the customer section!");
 });
 
-// Adding sample customers
+// Add some example customers
 addCustomer("Alice Johnson");
 addCustomer("John Doe");
 addCustomer("Emma Smith");
