@@ -12,3 +12,17 @@ revenueCard.textContent = "Revenue: $0"; // Adding placeholder text
 
 // Appending the new revenue card to the dashboard
 dashboard.appendChild(revenueCard);
+
+// Task 2 - Updated Metric Cards via Array Conversion
+
+// Selecting all metric cards
+const metricCardList = document.querySelectorAll(".metric-card");
+
+// Converting NodeList to an array
+const metricCardArray = [...metricCardList];
+
+// Updating each card text and background color
+metricCardArray.forEach(card => {
+    card.textContent += " - Updated";
+    card.style.backgroundColor = "greenyellow";
+});
