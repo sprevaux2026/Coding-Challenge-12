@@ -9,6 +9,12 @@ const revenueCard = document.createElement("div");
 revenueCard.setAttribute("class", "metric-card"); // Assigning class
 revenueCard.setAttribute("id", "revenueCard"); // Assigning unique ID
 revenueCard.textContent = "Revenue: $0"; // Adding placeholder text
+// Function to update revenue dynamically
+function updateRevenue(amount) {
+    let currentRevenue = parseInt(revenueCard.textContent.replace("Revenue: $", ""));
+    currentRevenue += amount;
+    revenueCard.textContent = `Revenue: $${currentRevenue}`;
+}
 
 // Appending the new revenue card to the dashboard
 dashboard.appendChild(revenueCard);
@@ -37,12 +43,21 @@ function addInventoryItem(product) {
     newItem.setAttribute("class", "product-item");
     newItem.setAttribute("data-product", product);
     newItem.textContent = product;
+      // Attach event listener to remove item on click AND increase revenue
+      newItem.addEventListener("click", function () {
+        removeInventoryItem(newItem);
+        updateRevenue(100); // Increase revenue when an item is sold
+    });
+
+    inventoryList.appendChild(newItem);
+}
+
 
     // Attach event to remove item when clicked
     newItem.addEventListener("click", () => removeInventoryItem(newItem));
     
     inventoryList.appendChild(newItem);
-}
+
 
 // Function to remove inventory item
 function removeInventoryItem(item) {
@@ -70,7 +85,18 @@ function addCustomer(name) {
     });
 
     customerSection.appendChild(customerCard);
-}
+        // Prevent event bubbling and trigger alert
+        customerCard.addEventListener("click", function (event) {
+            console.log(`Customer clicked: ${name}`);
+            alert(`Customer: ${name} clicked!`);
+            event.stopPropagation(); // Prevent parent click from firing
+        });
+    
+        customerSection.appendChild(customerCard);
+    }
+    
+    
+
 
 // Click event on parent container to demonstrate bubbling
 customerSection.addEventListener("click", () => {
