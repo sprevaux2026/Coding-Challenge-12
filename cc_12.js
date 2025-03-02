@@ -26,3 +26,29 @@ metricCardArray.forEach(card => {
     card.textContent += " - Updated";
     card.style.backgroundColor = "greenyellow";
 });
+
+// Task 3 - Implemented Dynamic Inventory List
+
+const inventoryList = document.getElementById("inventoryList");
+
+// Function to add new inventory item
+function addInventoryItem(product) {
+    let newItem = document.createElement("li");
+    newItem.setAttribute("class", "product-item");
+    newItem.setAttribute("data-product", product);
+    newItem.textContent = product;
+
+    // Attach event to remove item when clicked
+    newItem.addEventListener("click", () => removeInventoryItem(newItem));
+    
+    inventoryList.appendChild(newItem);
+}
+
+// Function to remove inventory item
+function removeInventoryItem(item) {
+    inventoryList.removeChild(item);
+}
+
+// Testing with sample items
+addInventoryItem("Click to Remove");
+addInventoryItem("Try Adding More");
